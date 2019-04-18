@@ -12,7 +12,7 @@ Donwload prepared HDF5 data for training:
 To prepare your own HDF5 data, you need to firstly download 3D indoor parsing dataset and then use `python collect_indoor3d_data.py` for data re-organization and `python gen_indoor3d_h5.py` to generate HDF5 files.
 
 ### Training
-
+    ln -s ../data/indoorstandfordh5_data/
     python train.py
     
 ### Testing
