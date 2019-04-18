@@ -8,6 +8,8 @@ data/stanford_indoor3d/Area_1_hallway_3.npy
 data/stanford_indoor3d/Area_1_hallway_4.npy
 data/stanford_indoor3d/Area_1_hallway_5.npy
 data/stanford_indoor3d/Area_1_hallway_6.npy
+data/stanford_indoor3d/Area_1_hallway_7.npy
+data/stanford_indoor3d/Area_1_hallway_8.npy
 data/stanford_indoor3d/Area_1_office_1.npy
 data/stanford_indoor3d/Area_1_office_10.npy
 data/stanford_indoor3d/Area_1_office_11.npy

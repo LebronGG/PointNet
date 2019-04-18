@@ -15,19 +15,19 @@ sys.path.append(os.path.join(ROOT_DIR, 'utils'))
 import provider
 import tf_util
 from model import *
-
+i=6
 parser = argparse.ArgumentParser()
 parser.add_argument('--gpu', type=int, default=0, help='GPU to use [default: GPU 0]')
-parser.add_argument('--log_dir', default='log6', help='Log dir [default: log]')
+parser.add_argument('--log_dir', default='log{}'.format(i), help='Log dir [default: log]')
 parser.add_argument('--num_point', type=int, default=4096, help='Point number [default: 4096]')
 parser.add_argument('--max_epoch', type=int, default=200, help='Epoch to run [default: 50]')
-parser.add_argument('--batch_size', type=int, default=8, help='Batch Size during training [default: 24]')
+parser.add_argument('--batch_size', type=int, default=32, help='Batch Size during training [default: 24]')
 parser.add_argument('--learning_rate', type=float, default=0.001, help='Initial learning rate [default: 0.001]')
 parser.add_argument('--momentum', type=float, default=0.9, help='Initial learning rate [default: 0.9]')
 parser.add_argument('--optimizer', default='adam', help='adam or momentum [default: adam]')
 parser.add_argument('--decay_step', type=int, default=300000, help='Decay step for lr decay [default: 300000]')
 parser.add_argument('--decay_rate', type=float, default=0.5, help='Decay rate for lr decay [default: 0.5]')
-parser.add_argument('--test_area', type=int, default=6, help='Which area to use for test, option: 1-6 [default: 6]')
+parser.add_argument('--test_area', type=int, default='{}'.format(i), help='Which area to use for test, option: 1-6 [default: 6]')
 FLAGS = parser.parse_args()
 
 
