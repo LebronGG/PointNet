@@ -1,9 +1,8 @@
 import numpy as np
 import argparse
 
-i=1
 parser = argparse.ArgumentParser()
-parser.add_argument('--test_area', type=int, default='{}'.format(i),help='The areas except this one will be used to estimate the mean instance size')
+parser.add_argument('--test_area', type=int,help='The areas except this one will be used to estimate the mean instance size')
 FLAGS = parser.parse_args()
 
 pred_data_label_file = [line.rstrip() for line in open('./log{}/output_filelist.txt'.format(FLAGS.test_area))]

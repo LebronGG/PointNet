@@ -6,17 +6,15 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 sys.path.append(BASE_DIR)
 from model import *
 import indoor3d_util
-import time
 
-i=1
 parser = argparse.ArgumentParser()
 parser.add_argument('--gpu', type=int, default=0, help='GPU to use [default: GPU 0]')
 parser.add_argument('--batch_size', type=int, default=1, help='Batch Size during training [default: 1]')
 parser.add_argument('--num_point', type=int, default=4096, help='Point number [default: 4096]')
-parser.add_argument('--model_path', default='log{}/model.ckpt'.format(i),help='model checkpoint file path')
-parser.add_argument('--dump_dir', default='log{}/dump'.format(i), help='dump folder path')
-parser.add_argument('--output_filelist', default='log{}/output_filelist.txt'.format(i), help='TXT filename, filelist, each line is an output for a room')
-parser.add_argument('--room_data_filelist', default='meta/area{}_data_label.txt'.format(i), help='TXT filename, filelist, each line is a test room data label file.')
+parser.add_argument('--model_path', required=True, help='model checkpoint file path')
+parser.add_argument('--dump_dir', required=True, help='dump folder path')
+parser.add_argument('--output_filelist', required=True, help='TXT filename, filelist, each line is an output for a room')
+parser.add_argument('--room_data_filelist', required=True, help='TXT filename, filelist, each line is a test room data label file.')
 parser.add_argument('--no_clutter', action='store_true', help='If true, donot count the clutter class')
 parser.add_argument('--visu', action='store_true', help='Whether to output OBJ file for prediction visualization.')
 FLAGS = parser.parse_args()
@@ -117,8 +115,6 @@ def eval_one_epoch(sess, ops, room_path, out_data_label_filename, out_gt_label_f
 
     
     for batch_idx in range(num_batches):
-
-        t1 = time.time()
         start_idx = batch_idx * BATCH_SIZE
         end_idx = (batch_idx+1) * BATCH_SIZE
         cur_batch_size = end_idx - start_idx
@@ -126,8 +122,6 @@ def eval_one_epoch(sess, ops, room_path, out_data_label_filename, out_gt_label_f
         feed_dict = {ops['pointclouds_pl']: current_data[start_idx:end_idx, :, :],
                      ops['labels_pl']: current_label[start_idx:end_idx],
                      ops['is_training_pl']: is_training}
-        print current_data[start_idx:end_idx, :, :].shape
-        print current_label[start_idx:end_idx].shape
         loss_val, pred_val = sess.run([ops['loss'], ops['pred_softmax']],
                                       feed_dict=feed_dict)
 
@@ -135,10 +129,6 @@ def eval_one_epoch(sess, ops, room_path, out_data_label_filename, out_gt_label_f
             pred_label = np.argmax(pred_val[:,:,0:12], 2) # BxN
         else:
             pred_label = np.argmax(pred_val, 2) # BxN
-        t2 = time.time()
-        print ('one batch cost:', t2 - t1)
-
-
         # Save prediction labels to OBJ file
         for b in range(BATCH_SIZE):
             pts = current_data[start_idx+b, :, :]
